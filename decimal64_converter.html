@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decimal-64 Floating-Point Converter</title>
+  <script src="script.js"></script>
+</head>
+<body>
+  <h1>Decimal-64 Floating-Point Converter</h1>
+  <form id="converterForm">
+    <label for="inputNumber">Enter a decimal number:</label>
+    <input type="text" id="inputNumber" name="inputNumber" required>
+    <br>
+    <!-- <label for="roundingMethod">Select a rounding method:</label>
+    <select id="roundingMethod" name="roundingMethod">
+      <option value="round">Round</option>
+      <option value="ceil">Ceil</option>
+      <option value="floor">Floor</option>
+    </select> -->
+    <br>
+    <button type="submit">Convert</button>
+  </form>
+  <h2>Results:</h2>
+  <p id="binaryOutput"></p>
+  <p id="hexOutput"></p>
+  <button id="saveToFile">Save to File</button>
+</body>
+</html>
