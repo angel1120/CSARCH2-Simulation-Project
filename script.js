@@ -20,9 +20,10 @@ document.getElementById("converterForm").addEventListener("submit", function(eve
         let decimal = inputNumber.slice(0,index_X);
         let index_exp_sign = inputNumber.indexOf("^");
         let base_10_exponent = inputNumber.slice(index_exp_sign+1, inputNumber.length);
-
+        
     // get expanded decimal (from exponent)
-        let float_decimal = parseFloat(decimal) ;
+        let float_decimal = parseFloat(decimal);
+        let int_base_10_exponent = parseInt(base_10_exponent);
 
         // get sign bit for binary conversion
         let sign = "";
@@ -75,10 +76,53 @@ document.getElementById("converterForm").addEventListener("submit", function(eve
 
         final_e_prime = final_e_prime.concat(binary_e_prime);
 
+        let infinity = "";
+
+        for (let i=0; i<52; i++) {
+            infinity = infinity.concat("0");
+        }
+
     // concatenate sign, exponent representation, fraction significand
         let final_binary_form = sign.concat(" ", final_e_prime);
         final_binary_form = final_binary_form.concat(" ", fraction_significand);
 
+        console.log(infinity);
+
+        if (final_e_prime == "00000000000" && sign == "0" && fraction_significand == infinity){
+            document.getElementById("binaryOutput").innerText = "+0" ;
+            document.getElementById("hexOutput").innerText = "Hex: +0000000000000000";
+
+        }
+        else if (final_e_prime == "00000000000" && sign == "1" && fraction_significand == infinity){
+            document.getElementById("binaryOutput").innerText = "-0" ;
+            document.getElementById("hexOutput").innerText = "Hex: -0000000000000000";
+
+        }
+        else if (final_e_prime == "00000000000"){
+            document.getElementById("binaryOutput").innerText = "Binary: Denormalized" ;
+            document.getElementById("hexOutput").innerText = "Hex: Denormalized";
+
+        }
+
+        else if (final_e_prime == "11111111111" && sign == "0" && fraction_significand == infinity){
+            document.getElementById("binaryOutput").innerText = "Binary: +Infinity" ;
+            document.getElementById("hexOutput").innerText = "Hex: 0x7FF0000000000000";
+
+        }
+        else if (final_e_prime == "11111111111" && sign == "1" && fraction_significand == infinity){
+            document.getElementById("binaryOutput").innerText = "Binary: -Infinity" ;
+            document.getElementById("hexOutput").innerText = "Hex: 0xFFF0000000000000";
+        }
+        else if (final_e_prime == "11111111111" && fraction_significand == fraction_significand.charAt(0) == 0){
+            document.getElementById("binaryOutput").innerText = "Binary: sNaN" ;
+            document.getElementById("hexOutput").innerText = "Hex: sNaN";
+        }
+        else if (final_e_prime == "11111111111" && fraction_significand == fraction_significand.charAt(0) == 1){
+            document.getElementById("binaryOutput").innerText = "Binary: qNaN" ;
+            document.getElementById("hexOutput").innerText = "Hex: qNaN";
+        }
+
+        else{
     // concatenate for binary to hex
         let bin_to_hex_var = sign.concat(final_e_prime);
         bin_to_hex_var = bin_to_hex_var.concat(fraction_significand);
@@ -148,7 +192,7 @@ document.getElementById("converterForm").addEventListener("submit", function(eve
 
         document.getElementById("binaryOutput").innerText = "Binary: " + final_binary_form;
         document.getElementById("hexOutput").innerText = "Hex: " + final_hex;
-
+    }
     //   let roundingMethod = document.getElementById("roundingMethod").value;
     //   let float64 = parseFloat(inputNumber);
 
@@ -163,6 +207,8 @@ document.getElementById("converterForm").addEventListener("submit", function(eve
     //   let hex = roundFunc(float64).toString(16);
     //   document.getElementById("binaryOutput").innerText = "Binary: " + binary;
     //   document.getElementById("hexOutput").innerText = "Hex: " + hex;
+
+        
     }
 
     document.getElementById("saveToFile").addEventListener("click", function() {
